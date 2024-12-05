@@ -22,4 +22,16 @@ const ver = async () => {
         data:rows
     }}
 
-module.exports = { crear, ver };
+
+const modificar = async (id, titulo, img, descripcion) => {
+    const SQLQuery = "UPDATE posts SET titulo = $1, img = $2, descripcion = $3 WHERE id = $4 RETURNING *"
+    const SQLValues = [titulo, img, descripcion, id]
+
+    const { rowCount, rows } = await DB.query(SQLQuery, SQLValues)
+
+    return {
+        rowCount,
+        data:rows
+    }}
+
+module.exports = { crear, ver , modificar};

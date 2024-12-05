@@ -19,16 +19,24 @@ function App() {
 
   const agregarPost = async () => {
     const post = { titulo, img: imgSrc, descripcion, likes: 0 };
-    await axios.post(urlBaseServer + "/api/posts", post);
-    setPosts([...posts, post]);
+    const response = await axios.post(urlBaseServer + "/api/posts", post);
+    getPosts(); 
   };
-
-
-
-  // este método se utilizará en el siguiente desafío
+  
   const like = async (id) => {
-    await axios.put(urlBaseServer + `/posts/like/${id}`);
-    getPosts();
+    console.log("ID recibido en like:", id); 
+  
+    if (!id) {
+      console.error("El ID no es válido");
+      return;
+    }
+  
+    try {
+      await axios.put(`${urlBaseServer}/posts/like/${id}`);
+      getPosts();  
+    } catch (error) {
+      console.error("Error al actualizar el like:", error);
+    }
   };
 
   // este método se utilizará en el siguiente desafío
